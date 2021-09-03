@@ -1,0 +1,66 @@
+html,
+body {
+    width: 100%;
+    overflow-x: hidden !important;
+}
+
+.connect-btn {
+    background-color: rgb(31, 199, 212) !important;
+    color: white !important;
+    font-weight: 600 !important;
+}
+
+.connect-btn:hover {
+    background-color: #04b5be !important;
+}
+
+/* CHART */
+
+#curve_chart:fullscreen {
+    background-color: white;
+    padding-top: 200px;
+}
+#curve_chart:-webkit-full-screen {
+    background-color: white;
+    padding-top: 200px;
+}
+#curve_chart:-moz-full-screen {
+    background-color: white;
+    padding-top: 200px;
+}
+
+#curve_chart {
+    width: 80%;
+    display: block;
+    margin: 0 auto;
+}
+
+.advertise {
+    position: relative;
+    left: 220px;
+    top: 20px;
+}
+
+@media (max-width: 767px) {
+    #curve_chart {
+        width: 100%;
+        display: block;
+    }
+
+    .advertise {
+        position: static;
+        margin-bottom: -5px;
+        margin-left: 110px;
+    }
+}
+
+/* CHART */
+
+.test {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 40px;
+    font-weight: 600;
+    text-align: center;
+    position: relative;
+    bottom: 100px;
+}

@@ -1,0 +1,310 @@
+<%- include("../layouts/header.ejs") %>
+
+    <style>
+        .top-buttons {
+            margin-left: 80%;
+        }
+
+        @media only screen and (max-width: 768px) {
+            .top-buttons {
+                margin-left: 30%;
+            }
+        }
+    </style>
+
+    <link rel="stylesheet" href="/css/owl.carousel.min.css" />
+
+
+
+    <section class="home-section pt-4">
+
+        <section>
+            <div class="top-buttons">
+                <% if (shared_data.user_is_authenticated) { %>
+                    <form target="/logout" method="POST" class="form-inline mt-2 mt-md-0 pr-md-5 mr-md-5">
+                        <ul class="navbar-nav">
+
+
+                            <div class="dropdown">
+                                <a class="nav-link" href="#" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false">
+                                    <div
+                                        style="text-overflow: ellipsis; width: 200px; text-decoration: none; font-size: 16px">
+                                        <span class="login">
+                                            <%= shared_data.ethAdd.slice(0, 5) + "..." +
+                                                shared_data.ethAdd.slice(shared_data.ethAdd.length - 4,
+                                                shared_data.ethAdd.length) %>
+                                        </span>
+                                        <i class="fas fa-caret-down login"></i>
+                                    </div>
+                                </a>
+
+                                <div style="background-color: #fff;" class="dropdown-menu" aria-labelledby="dropdown01">
+
+                                    <a style="width: 150px;" class="dropdown-item user-dropdown" href="/logout">Log
+                                        out</a>
+                                </div>
+                        </ul>
+                    </form>
+                    <% } else { %>
+                        <h1>NOT AUTH</h1>
+                        <% } %>
+            </div>
+        </section>
+
+        <div style="visibility: hidden; width: 0; height: 0;">
+            <p id="pie-chart">
+                <%= JSON.stringify(shared_data.pie_chart) %>
+            </p>
+        </div>
+
+        <div style="background-color: #E4E9F7;" class="content container my-4">
+            <div class="row">
+                <div class="col text-center">
+                    <a style="text-decoration: none;" href="/"><p class="advertise">ADVERTISE WITH US</p></a>
+                    <img class="img-fluid" src="/images/sample_ad.jfif" alt="advertisement">
+                </div>
+            </div>
+
+        </div>
+
+        <section class="pb-3">
+            <div style="background-color: #fff; border-radius: 2rem;" class="container">
+                <div class="row">
+                    <div class="col-md-6 pl-5 my-auto">
+                        <div class="pb-3">
+                            <h2>Wallet ID:</h2>
+                            <p id="address" style="display: inline-block; width: 80%;">
+                                <%= shared_data.ethAdd %>
+                            </p> <button class="btn" style="display: inline-block; background-color: #eeeeeee0;"
+                                onclick="myFunction()"><i class="far fa-clipboard"></i></button>
+                        </div>
+                        <div class="pt-3">
+                            <h2>Wallet Balance:</h2>
+                            <h4>
+                                $<%= shared_data.balance_sum %> USD
+                            </h4>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div id="curve_chart"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-3">
+            <div class="container">
+                <h3 class="mb-3">Results - Live Tokens Returned From Wallet</h3>
+                <div class="row">
+                    <div style="border-radius: 1rem;" class="col">
+                        <div style="background-color: #fff; border-radius: 1rem;" class="p-1">
+                            <table style="cursor: pointer;"
+                                class="table table-borderless bg-white rounded table-hover ">
+                                <thead class="rounded text-center"
+                                    style="background-color: #fff; border-bottom: 1px solid #dee2e6;">
+                                    <tr class="py-3">
+                                        <th class="py-3 text-center" scope="col">Symbol</th>
+                                        <th class="py-3 text-center" scope="col">Name</th>
+                                        <th class="py-3 text-center" scope="col">Price (USD)</th>
+                                        <th class="py-3 text-center" scope="col">Balance</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <% shared_data.user_wallet.forEach(async function (token) { %>
+
+                                        <tr class="clickable-row" data-href="/chart/<%= token.token_address %>"
+                                            style="border-bottom: 1px solid #dee2e6;">
+
+                                            <th class="py-3 text-center" scope="row">
+
+                                                <%= token.symbol %>
+
+                                            </th>
+
+
+                                            <td class="pb-2 pt-3 text-center">
+                                                <%= token.name %>
+                                            </td>
+                                            <% if(token.usdPrice) { %>
+                                                <td class="pb-2 pt-3  text-center">
+                                                    <%= token.usdPrice.toFixed(8) %>
+                                                </td>
+                                            <% } else {%>
+                                                <td class="pb-2 pt-3  text-center">
+                                                    0.00
+                                                </td>
+                                            <% } %>
+                                            <td class="pb-2 pt-3  text-center">
+                                                <%= token.balance / (Math.pow(10, token.decimals)) %>
+                                            </td>
+                                        </tr>
+
+                                        <% }); %>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="py-3">
+            <div class="container">
+                <h3 class="mb-3">Promoted Coins</h3>
+                <div class="row">
+                    <div style="border-radius: 1rem;" class="col">
+                        <div style="background-color: #fff; border-radius: 1rem;" class="p-1">
+                            <table style="cursor: pointer;"
+                                class="table table-borderless bg-white rounded table-hover ">
+                                <thead class="rounded text-center"
+                                    style="background-color: #fff; border-bottom: 1px solid #dee2e6;">
+                                    <tr class="py-3">
+                                        <th class="py-3 d-none d-lg-table-cell text-center" scope="col">#</th>
+                                        <th class="py-3 text-center" scope="col">Symbol</th>
+                                        <th class="py-3 d-none d-lg-table-cell text-center" scope="col">Name</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <th class="py-3 d-none d-lg-table-cell text-center" scope="row">ETH
+                                        </th>
+                                        <td class="pb-2 pt-3 text-center">Apple, Microsoft</td>
+                                        <td class="pb-2 pt-3 d-none d-lg-table-cell text-center">Name 1</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <th class="py-3 d-none d-lg-table-cell text-center" scope="row">BSC
+                                        </th>
+                                        <td class="pb-2 pt-3 text-center">Nokia</td>
+                                        <td class="pb-2 pt-3 d-none d-lg-table-cell text-center">Name 2</td>
+                                    </tr>
+                                    <tr style="border-bottom: 1px solid #dee2e6;">
+                                        <th class="py-3 d-none d-lg-table-cell text-center" scope="row">ETH
+                                        </th>
+                                        <td class="pb-2 pt-3 text-center">Apple, Spotify</td>
+                                        <td class="pb-2 pt-3 d-none d-lg-table-cell text-center">Name 3</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </section>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.min.js"
+        integrity="sha384-+YQ4JLhjyBLPDQt//I+STsc9iw4uQqACwlvpslubQzn4u2UU2UFM80nGisd026JF"
+        crossorigin="anonymous"></script>
+
+
+    <script src="/js/index.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        $('.owl-carousel').owlCarousel({
+            loop: true,
+            autoplay: true,
+            responsive: {
+                0: {
+                    items: 1
+                },
+                600: {
+                    items: 1
+                },
+                1000: {
+                    items: 2
+                }
+            }
+        });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $(".clickable-row").click(function () {
+                window.location = $(this).data("href");
+            });
+        });
+    </script>
+
+
+    <script>
+
+        const json_data = document.querySelector("#pie-chart").textContent;
+
+        const chart_data = JSON.parse(json_data);
+
+        const token_names = Object.keys(chart_data).slice(0, 4);
+        const token_balances = Object.values(chart_data).slice(0, 4);
+
+        var options = {
+            chart: {
+                type: "pie",
+            },
+            plotOptions: {
+                pie: {
+                    customScale: 0.8,
+                    pie: {
+                        labels: {
+                            show: false,
+                        },
+                    },
+                },
+            },
+            series: token_balances,
+            labels: token_names,
+        };
+
+        var chart = new ApexCharts(document.querySelector("#curve_chart"), options);
+
+        chart.render();
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+    <script>
+        const dark = {
+            bottom: '62px', // default: '32px'
+            right: '32px', // default: '32px'
+            left: 'unset', // default: 'unset'
+            time: '0.5s', // default: '0.3s'
+            backgroundColor: '#fff',
+            buttonColorDark: '#100f2c',  // default: '#100f2c'
+            buttonColorLight: '#fff', // default: '#fff'
+            saveInCookies: true, // default: true,
+            label: '🌓', // default: ''
+        }
+
+        const darkmode = new Darkmode(dark);
+        darkmode.showWidget();
+    </script>
+
+    <script>
+        function myFunction() {
+            var from = document.getElementById("address");
+            var range = document.createRange();
+            window.getSelection().removeAllRanges();
+            range.selectNode(from);
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            window.getSelection().removeAllRanges();
+        }
+    </script>
+    </body>
+
+    </html>

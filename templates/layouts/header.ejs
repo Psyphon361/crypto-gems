@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+    <link rel="stylesheet" href="/css/navigationBar.css">
+
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- Boxicons CDN Link -->
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous" />
+
+    <script src="https://kit.fontawesome.com/c622614d7c.js" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <style>
+        .dropdown-content {
+            display: none;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="sidebar">
+        <div class="logo-details">
+            <a href="/">
+                <img id="logo" width="200px" alt="logo" src="/images/logo.png">
+            </a>
+            <i class='bx bx-menu' id="btn"></i>
+
+        </div>
+        <ul class="nav-list">
+            <li>
+                <a href="/dashboard">
+                    <i class='bx bx-grid-alt'></i>
+                    <span class="links_name">Dashboard</span>
+                </a>
+                <span class="tooltip">Dashboard</span>
+            </li>
+            <li>
+                <a href="#">
+                    <div class="dropdown">
+                        <i class="fas fa-wallet"></i>
+                        <span class="links_name">My Wallet</span>
+                        <div class="dropdown-content align-center">
+                            <a class="links_name wallet-dropdown" style="text-decoration: none; color: white;"
+                                href="/home/BEP-20">BSC</a>
+                            <a class="links_name wallet-dropdown" style="text-decoration: none; color: white;"
+                                href="/home/ERC-20">ETH</a>
+                            <a class="links_name wallet-dropdown" style="text-decoration: none; color: white;"
+                                href="/home/MATIC">Matic</a>
+                        </div>
+                    </div>
+                </a>
+                <span class="tooltip">My Wallet</span>
+            </li>
+            <li>
+                <a href="/airdrop">
+                    <i class="fas fa-list"></i>
+                    <span class="links_name">Airdrop</span>
+                </a>
+                <span class="tooltip">Airdrop</span>
+            </li>
+            <li>
+                <a href="#">
+                    <i class="fas fa-envelope"></i>
+                    <span class="links_name">Contact us</span>
+                </a>
+                <span class="tooltip">Contact us</span>
+            </li>
+            <li class="profile">
+                <div style="text-align: center;">
+                    <i class="fab fa-twitter"></i>
+                    <i class="fab fa-telegram-plane"></i>
+                </div>
+            </li>
+        </ul>
+    </div>
